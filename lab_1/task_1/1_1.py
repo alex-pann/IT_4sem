@@ -7,10 +7,11 @@ gmsh.initialize()
 
 path = os.path.dirname(os.path.abspath(__file__))
 gmsh.merge(os.path.join(path, 'tor.stl'))
+#gmsh.merge(os.path.join(path, 'tor_half.stl'))
 
-angle = 40
+angle = 45
 
-forceParametrizablePatches = True #???
+forceParametrizablePatches = True
 
 includeBoundary = True
 
