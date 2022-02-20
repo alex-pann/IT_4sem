@@ -3,7 +3,7 @@ import sys
 
 gmsh.initialize()
 
-gmsh.model.add("t1_0_2")
+gmsh.model.add("t1_0_3")
 
 lc = 1e-2
 gmsh.model.geo.addPoint(0, 0, 0, lc, 1)
@@ -42,7 +42,7 @@ gmsh.model.geo.synchronize()
 
 gmsh.model.mesh.generate(3)
 
-gmsh.write("t0_1.msh")
+gmsh.write("t1_0_cyl.msh")
 gmsh.write("t1_0_cyl.geo_unrolled")
 
 if '-nopopup' not in sys.argv:

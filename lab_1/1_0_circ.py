@@ -20,8 +20,8 @@ gmsh.model.geo.synchronize()
 
 gmsh.model.mesh.generate(2)
 
-gmsh.write("t0_1.msh")
-gmsh.write("t0_1.geo_unrolled")
+gmsh.write("t1_0_circ.msh")
+gmsh.write("t1_0_circ.geo_unrolled")
 
 if '-nopopup' not in sys.argv:
     gmsh.fltk.run()
