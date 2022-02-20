@@ -39,7 +39,7 @@ else:
 gmsh.model.mesh.field.setAsBackgroundMesh(f)
 
 gmsh.model.mesh.generate(3)
-gmsh.write('t13.msh')
+gmsh.write('t1_1.msh')
 
 if '-nopopup' not in sys.argv:
     gmsh.fltk.run()
