@@ -30,20 +30,20 @@ gmsh.model.geo.addCurveLoop([3, 4], 2)
 gmsh.model.geo.addPlaneSurface([2], 2)
 
 gmsh.model.geo.addCurveLoop([1, 6, -3, -5], 3)
-gmsh.model.geo.addPlaneSurface([3], 3)
+gmsh.model.geo.addSurfaceFilling([3], 3)
 
 gmsh.model.geo.addCurveLoop([2, 5, -4, -6], 4)
-gmsh.model.geo.addPlaneSurface([4], 4)
+gmsh.model.geo.addSurfaceFilling([4], 4)
 
 l = gmsh.model.geo.addSurfaceLoop([i + 1 for i in range(4)])
 gmsh.model.geo.addVolume([l])
 
 gmsh.model.geo.synchronize()
 
-gmsh.model.mesh.generate(2)
+gmsh.model.mesh.generate(3)
 
 gmsh.write("t0_1.msh")
-gmsh.write("t0_1.geo_unrolled")
+gmsh.write("t1_0_cyl.geo_unrolled")
 
 if '-nopopup' not in sys.argv:
     gmsh.fltk.run()
