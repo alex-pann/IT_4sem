@@ -6,20 +6,19 @@ import sys
 gmsh.initialize()
 
 path = os.path.dirname(os.path.abspath(__file__))
-gmsh.merge(os.path.join(path, 'dino_tr.stl'))
+gmsh.merge(os.path.join(path, 'SW_TieFighter.stl'))
 
-angle = 50
+angle = 90
 
 forceParametrizablePatches = True
 
-includeBoundary = True
+includeBoundary = False
 
 curveAngle = 180
 
 gmsh.model.mesh.classifySurfaces(angle * math.pi / 180., includeBoundary,
                                  forceParametrizablePatches,
                                  curveAngle * math.pi / 180.)
-
 
 gmsh.model.mesh.createGeometry()
 
@@ -34,13 +33,15 @@ f = gmsh.model.mesh.field.add("MathEval")
 if funny:
     gmsh.model.mesh.field.setString(f, "F", "1*Sin((x+y)/5) + 3")
 else:
-    gmsh.model.mesh.field.setString(f, "F", "1.5")
+    gmsh.model.mesh.field.setString(f, "F", "0.7")
 gmsh.model.mesh.field.setAsBackgroundMesh(f)
 
-gmsh.model.mesh.generate(2)
-gmsh.write('t13.msh')
+gmsh.model.mesh.generate(3)
+gmsh.write('SW.msh')
+gmsh.write("SW.geo_unrolled")
 
 if '-nopopup' not in sys.argv:
     gmsh.fltk.run()
+
 
 gmsh.finalize()
