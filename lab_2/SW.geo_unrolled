@@ -1,0 +1,7 @@
+cl__1 = 1e+22;
+Point(1) = {-16.88284683227539, 48.37481307983398, 14.19999980926514, cl__1};
+Surface Loop(1) = {2, 3};
+Volume(1) = {1};
+Field[1] = MathEval;
+Field[1].F = "2";
+Background Field = 1;
