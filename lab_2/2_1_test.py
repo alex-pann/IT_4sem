@@ -18,13 +18,18 @@ class CalcMesh:
 
         # Скорость точек
         self.velocity = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
-        self.velocity[1] = -3*self.nodes[2] - 100
-        self.velocity[2] = 3*self.nodes[1]
+        self.velocity[1] = -self.nodes[2] - 100
+        self.velocity[2] = self.nodes[1]
 
         self.velocity2 = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
-        self.velocity2[2] = 3*self.nodes[0] 
-        self.velocity2[0] = -3*self.nodes[2] 
-        # self.velocity[1] = -100
+        self.velocity2[2] = self.nodes[0] 
+        self.velocity2[0] = -self.nodes[2] 
+        self.velocity2[1] = -100
+
+        self.velocity3 = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
+        self.velocity3[1] = self.nodes[0] 
+        self.velocity3[0] = -self.nodes[1] 
+        self.velocity3[1] = -100
 
 
         # Пройдём по элементам в модели gmsh
@@ -37,7 +42,7 @@ class CalcMesh:
         #     self.nodes += self.velocity * tau
         # else:
         #     self.nodes += self.velocity2 * tau
-        self.nodes += self.velocity * tau
+        self.nodes += self.velocity2 * tau
 
     # Метод отвечает за запись текущего состояния сетки в снапшот в формате VTK
     def snapshot(self, snap_number):
