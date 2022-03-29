@@ -14,23 +14,13 @@ class CalcMesh:
         self.nodes = np.array([nodes_coords[0::3],nodes_coords[1::3],nodes_coords[2::3]])
 
         # Модельная скалярная величина распределена как-то вот так
-        self.smth = np.power(self.nodes[0, :], 2) + np.power(self.nodes[1, :], 2)
+        self.smth = np.power(self.nodes[0, :], 3) + np.power(self.nodes[1, :], 3)
 
         # Скорость точек
         self.velocity = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
-        self.velocity[1] = -self.nodes[2] - 100
-        self.velocity[2] = self.nodes[1]
-
-        self.velocity2 = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
-        self.velocity2[2] = self.nodes[0] 
-        self.velocity2[0] = -self.nodes[2] 
-        self.velocity2[1] = -100
-
-        self.velocity3 = np.zeros(shape=(3, int(len(nodes_coords) / 3)), dtype=np.double)
-        self.velocity3[1] = self.nodes[0] 
-        self.velocity3[0] = -self.nodes[1] 
-        self.velocity3[1] = -100
-
+        self.velocity[2] = -self.nodes[0] 
+        self.velocity[0] = self.nodes[2] 
+        self.velocity[1] = -100
 
         # Пройдём по элементам в модели gmsh
         self.tetrs = np.array([tetrs_points[0::4],tetrs_points[1::4],tetrs_points[2::4],tetrs_points[3::4]])
@@ -38,11 +28,7 @@ class CalcMesh:
 
     # Метод отвечает за выполнение для всей сетки шага по времени величиной tau
     def move(self, tau, t):
-        # if (t < 0.01 * 20):
-        #     self.nodes += self.velocity * tau
-        # else:
-        #     self.nodes += self.velocity2 * tau
-        self.nodes += self.velocity2 * tau
+        self.nodes += self.velocity * tau
 
     # Метод отвечает за запись текущего состояния сетки в снапшот в формате VTK
     def snapshot(self, snap_number):
@@ -127,7 +113,7 @@ gmsh.model.geo.synchronize()
 
 # Зададим мелкость желаемой сетки
 f = gmsh.model.mesh.field.add("MathEval")
-gmsh.model.mesh.field.setString(f, "F", "1.5")
+gmsh.model.mesh.field.setString(f, "F", "0.5")
 gmsh.model.mesh.field.setAsBackgroundMesh(f)
 
 # Построим сетку
@@ -163,10 +149,12 @@ mesh = CalcMesh(nodesCoord, tetrsNodesTags)
 mesh.snapshot(0)
 
 # Шаг по времени
-tau = 0.01
+tau = 0.005
 
-for i in range(1, 100):
+for i in range(1, 200):
     mesh.move(tau, tau*i)
     mesh.snapshot(i)
+    if (i%10 == 0):
+        print (i, " of 200 steps completed")
 
 gmsh.finalize()
